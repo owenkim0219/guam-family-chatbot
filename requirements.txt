@@ -1,0 +1,23 @@
+# === LangChain 1.x 생태계 (강의 환경 기준) ===
+langchain>=1.0
+langchain-core>=1.3
+langchain-community>=0.3
+langchain-text-splitters>=0.3
+langchain-upstage>=0.7
+
+# === LangGraph (Agent + Memory) ===
+langgraph>=1.1
+
+# === Vector Store (RAG) ===
+faiss-cpu>=1.8
+
+# === Web UI ===
+streamlit>=1.30
+
+# === Jupyter (탐색용 노트북) ===
+jupyter>=1.0
+ipykernel>=6.0
+
+# === 환경 변수 + HTTP ===
+python-dotenv>=1.0
+requests>=2.31

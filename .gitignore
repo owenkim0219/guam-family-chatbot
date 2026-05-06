@@ -1,0 +1,54 @@
+# ============================================
+# 괌 가족여행 챗봇 — Git 추적 제외 목록
+# ============================================
+
+# === 환경변수 (절대 커밋 금지!) ===
+.env
+.env.local
+.env.*.local
+# .env.example 은 추적함 (예외 처리)
+!.env.example
+
+# === 가상환경 ===
+.venv/
+venv/
+env/
+ENV/
+
+# === Python 캐시/컴파일 파일 ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# === Jupyter Notebook 체크포인트 ===
+.ipynb_checkpoints/
+
+# === RAG 데이터 (비상업적 사용, GitHub 미공개) ===
+data/
+
+# === 빌드/배포 산출물 ===
+*.egg-info/
+dist/
+build/
+
+# === IDE / 에디터 설정 ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === 로그/캐시 ===
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# === Streamlit ===
+.streamlit/secrets.toml
+
+# === OS 자동 생성 파일 ===
+.DS_Store
+Thumbs.db
+desktop.ini
