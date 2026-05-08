@@ -32,11 +32,8 @@ from guam_chatbot.agent import invoke_agent  # noqa: E402
 
 
 def _normalize_for_markdown(text: str) -> str:
-    """Streamlit markdown-it-py가 단일/이중 ~를 strikethrough로 렌더하는 문제 우회.
-    숫자~숫자 패턴(26~28°C, 30~40만 원 등)만 하이픈으로 치환.
-    한글 사이의 ~ 는 의미 변형 위험이 있어 건드리지 않음.
-    """
-    return re.sub(r"(\d+)\s*~\s*(\d+)", r"\1-\2", text)
+    """Streamlit이 ~/~~를 strikethrough로 렌더하는 문제 우회. 모든 ~를 -로 치환."""
+    return re.sub(r"~+", "-", text)
 
 
 # ===== 페이지 설정 =====
@@ -47,7 +44,7 @@ st.set_page_config(
 )
 
 st.title("🌴 괌 가족여행 챗봇")
-st.caption("부부 + 어린 아이 1~3명 가족을 위한 괌 여행 어시스턴트")
+st.caption("가족 단위 여행자를 위한 괌 여행 어시스턴트")
 
 
 # ===== 세션 상태 초기화 =====
@@ -76,8 +73,8 @@ with st.sidebar:
 1. PIC 리조트 어때? 가족이 가도 좋아?
 2. 5월 둘째 주 괌 날씨 어때? 우비 챙겨야 해?
 3. 100달러면 한국 돈 얼마야?
-4. PIC 추천해줘. 4박 5일 30만원이면 충분해?
-5. (4번 직후) 그럼 더 저렴한 곳은?
+4. 5인 가족이 5월 둘째 주에 괌 갈 건데, PIC 어때? 날씨도 보고 싶고 100달러 환전 환율도 알려줘
+5. (4번 직후) 그럼 다른 추천도 있어?
 
 > 5번은 4번과 같은 세션에서 연속으로 입력해야
 > 메모리가 작동합니다 ("그럼"의 맥락 이해).
