@@ -16,7 +16,7 @@ from langchain_core.tools import tool
 # .env에서 환경 변수 로드 (이미 로드되었어도 멱등적이라 안전)
 load_dotenv()
 
-# 괌 (Tumon) 좌표 — plan Section 5
+# 괌 (Tumon) 좌표
 GUAM_LAT = 13.4443
 GUAM_LON = 144.7937
 

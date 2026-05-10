@@ -52,3 +52,7 @@ build/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# === Claude 작업용 문서 (개인 작업·인계 기록) ===
+docs/
+.claude/

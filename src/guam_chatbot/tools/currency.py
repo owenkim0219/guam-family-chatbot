@@ -3,8 +3,8 @@
 옵션 A 패턴: 도구는 raw 환율값만 string으로 반환. "100달러 = 한국 돈 얼마?"
 같은 환산 계산은 Agent의 LLM이 환율값을 받아 직접 수행함.
 
-도구 이름은 plan Section 4의 'convert_currency'를 그대로 사용. 옵션 A 결정
-이후 실제 동작은 환산이 아닌 환율 조회이지만, plan 일관성 우선. docstring에서
+도구 이름은 'convert_currency'를 그대로 사용. 옵션 A 결정 이후 실제
+동작은 환산이 아닌 환율 조회이지만, 이름 일관성 우선. docstring에서
 호출자에게 환산 책임을 명시함.
 """
 
@@ -18,7 +18,7 @@ from langchain_core.tools import tool
 # .env에서 환경 변수 로드 (이미 로드되었어도 멱등적이라 안전)
 load_dotenv()
 
-# 한국은행 ECOS Open API (plan Section 5)
+# 한국은행 ECOS Open API
 # 통계표 731Y001 — 주요국 통화의 대원화환율 / 주기 D — 일별
 # 항목 0000001 — 미국 달러
 # 정상 응답: {"StatisticSearch": {"list_total_count": N,

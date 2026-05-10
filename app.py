@@ -9,7 +9,7 @@
 - src/guam_chatbot/agent.py 의 invoke_agent() 호출 (main.py와 동일한 핵심)
 - UI 측 메시지 히스토리(st.session_state.messages)와
   agent 측 메모리(MemorySaver, thread_id 기준)를 분리해서 관리.
-  thread_id를 세션 내내 동일하게 유지해야 시연 #5 ("그럼 더 저렴한 곳은?") 메모리 작동.
+  thread_id를 세션 내내 동일하게 유지해야 시연 #5 ("그럼 다른 추천도 있어?") 메모리 작동.
 - 사이드바에 시연 5개 예시 + 대화 초기화 버튼 제공.
 """
 import sys
