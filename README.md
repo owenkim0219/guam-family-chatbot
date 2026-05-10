@@ -139,7 +139,7 @@ streamlit run app.py
 총 28개 문서 / 86,496자 / 97개 청크 (FAISS 인덱스).
 
 - 위키백과 한국어/영문 "Guam" (2개, CC BY-SA)
-- Wikivoyage 영문 "Guam" (12개 섹션, CC BY-SA)
+- Wikivoyage 영문 "Guam" (22개 섹션, CC BY-SA)
 - 나무위키 "퍼시픽 아일랜드 클럽" (1개, CC BY-NC-SA 2.0 KR — 비상업 학술 맥락에서 사용)
 - PIC 공식 사이트 www.pic.co.kr (3개 — 리조트 소개·골드카드 패스·워터파크 시설)
 
