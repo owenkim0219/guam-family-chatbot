@@ -90,11 +90,45 @@ with st.sidebar:
     st.caption(f"thread_id: `{st.session_state.thread_id}`")
 
 
+# ===== 도구 호출 추출 헬퍼 =====
+# 같은 thread_id 로 연속 호출하면 result["messages"] 는 대화 전체 누적이라
+# 그 안에는 이전 질문의 tool_calls 도 섞여 들어옴.
+# → "이번 질문(=마지막 HumanMessage) 이후의 메시지" 에서만 tool_calls 를 모아야 함.
+def _extract_tool_calls(messages):
+    last_human_idx = -1
+    for i, msg in enumerate(messages):
+        if msg.__class__.__name__ == "HumanMessage":
+            last_human_idx = i
+
+    calls = []
+    for msg in messages[last_human_idx + 1:]:
+        for tc in getattr(msg, "tool_calls", None) or []:
+            calls.append({"name": tc.get("name", "?"), "args": tc.get("args", {})})
+    return calls
+
+
+def _render_tool_calls(tool_calls, *, expanded=True):
+    """답변 위에 'Agent가 호출한 도구' expander 표시.
+    시연 #4에서 RAG + 날씨 + 환율 셋이 한 답변에 들어가는 걸 시각적으로 어필하기 위함.
+    """
+    if not tool_calls:
+        return
+    with st.expander(f"🔧 Agent가 호출한 도구 {len(tool_calls)}개", expanded=expanded):
+        for i, tc in enumerate(tool_calls, 1):
+            st.markdown(f"**{i}.** `{tc['name']}`")
+            if tc["args"]:
+                # 도구 입력(query) 도 한 줄로 보여줘야 'Agent가 적절히 쪼개 호출했다'가 보임
+                st.caption(f"   입력: {tc['args']}")
+
+
 # ===== 기존 대화 표시 =====
 # Streamlit이 매 입력마다 이 블록부터 다시 실행 → messages를 순서대로 그려야
 # 사용자에게 누적된 대화로 보임.
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
+        # assistant 메시지에 저장된 tool_calls 가 있으면 expander 로 함께 표시 (히스토리는 접어둠).
+        if msg["role"] == "assistant":
+            _render_tool_calls(msg.get("tool_calls", []), expanded=False)
         st.markdown(msg["content"])
 
 
@@ -106,6 +140,7 @@ if prompt := st.chat_input("질문을 입력하세요..."):
         st.markdown(prompt)
 
     # 2) Agent 호출 + 답변 표시
+    tool_calls = []
     with st.chat_message("assistant"):
         with st.spinner("생각 중..."):
             try:
@@ -116,12 +151,19 @@ if prompt := st.chat_input("질문을 입력하세요..."):
                 # invoke_agent 반환은 dict, 마지막 메시지가 최종 답변
                 messages = result.get("messages", [])
                 answer = messages[-1].content if messages else "(답변 없음)"
+                tool_calls = _extract_tool_calls(messages)
             except Exception as e:
                 # 도구 호출 실패·LLM 타임아웃·환경변수 누락 등.
                 # 에러도 대화에 남겨서 디버깅 시 흐름 추적 가능하게.
                 answer = f"⚠️ 에러: {type(e).__name__}: {e}"
+        # 호출된 도구 먼저 (시연 #4 핵심) → 그 다음 답변
+        _render_tool_calls(tool_calls, expanded=True)
         answer = _normalize_for_markdown(answer)
         st.markdown(answer)
 
-    # 3) 답변을 state에 저장 → 다음 재실행에서 누적 표시됨
-    st.session_state.messages.append({"role": "assistant", "content": answer})
+    # 3) 답변 + 도구 호출 정보를 state에 저장 → 다음 재실행에서 누적 표시됨
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": answer,
+        "tool_calls": tool_calls,
+    })
