@@ -2,7 +2,7 @@
 
 LangChain 기반 **괌 여행 정보 Q&A 챗봇**입니다. 괌 여행 시 흩어져 있는 정보(가이드·날씨·환율)를 한 곳에서 묻고 답받을 수 있도록 RAG + Agent로 구현한 LLM 응용 프로젝트입니다. 초기 설계 시 5인 가족(부부 + 어린 자녀 3명) 시나리오를 가정해 구체화했습니다.
 
-> **발표일**: 2026-05-11 (월) 16:00~19:00 (3H) — 패스트캠퍼스 LLM 강의 개인 프로젝트
+> **발표일**: 2026-05-11 — 패스트캠퍼스 AI 부트캠프 LLM 강의 개인 프로젝트
 
 ## 데모
 
@@ -129,7 +129,7 @@ streamlit run app.py
 | API | 용도 | 발급 가이드 |
 |---|---|---|
 | Upstage Solar | LLM, Embedding | https://console.upstage.ai/ |
-| OpenWeatherMap | 괌 5일 예보 (Current Weather + 5-day Forecast 무료 엔드포인트) | https://openweathermap.org/api |
+| OpenWeatherMap | 괌 5일 예보 (5-day / 3-hour Forecast 무료 엔드포인트) | https://openweathermap.org/api |
 | 한국은행 ECOS | 환율 조회 (통계표 731Y001, 항목 0000001 USD) | https://ecos.bok.or.kr/ |
 
 ## 데이터 출처

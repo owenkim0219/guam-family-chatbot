@@ -32,6 +32,8 @@ data/
 *.egg-info/
 dist/
 build/
+# 슬라이드 빌드용 node 프로젝트 (공개 불필요)
+ppt_build/
 
 # === IDE / 에디터 설정 ===
 .vscode/
